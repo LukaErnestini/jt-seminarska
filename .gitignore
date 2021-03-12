@@ -1,0 +1,7 @@
+prispevek/*.aux
+prispevek/*.bbl
+prispevek/*.blg
+prispevek/*.fdb_latexmk
+prispevek/*.fls
+prispevek/*.log
+prispevek/*.synctex.gz
