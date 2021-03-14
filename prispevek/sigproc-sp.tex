@@ -3,8 +3,7 @@
 
 \begin{document}
 
-\title{Naslov seminarske}
-\subtitle{Podnaslov seminarske}
+\title{Conversing verses - haiku generation using a LSTM-based auto-encoder matching model}
 
 \numberofauthors{2} 
 \author{
@@ -26,7 +25,7 @@ Niko Uremović\\
 \maketitle
 \begin{abstract}
 
-Lorem ipsum in paper \cite{pawade2018story}.
+Lorem ipsum
 
 \end{abstract}
 
@@ -40,7 +39,31 @@ Lorem ipsum in paper \cite{pawade2018story}.
 
 \section{Introduction}
 
-Lorem ipsum dolor sit amet
+- neural networks so zakon
+       - RNN, LSTM - generiranje zgodbe \cite{pawade2018story}
+       - RNN, LSTM - abstracitve text summarization \cite{song2019abstractive}
+       - CNN za image classification, RNN (LSTM) za caption generation - image captioning \cite{You_2016_CVPR}
+       - sklepanje, generiranje hipotez na podlagi naravnega besedila  \cite{bhagavatula2020abductive}
+tezave s katerimi se metode srecujejo (objektivno, avtomatizirano ovrednotenje - semanticna smiselnost besedila)
+       - ponekod lahko uporabimo metrike (kjer imamo target/label text) - image captioning
+              - BLEU \cite{papineni2002bleu}
+              - METEOR \cite{banerjee2005meteor}
+       - ponekod nimamo "pravega"/target/label teksta, in tako niso mozna avtomatska ovretnotenja (ovrednotijo anketiranci, human evaluation)
+              - generiranje kitajskih pesmi \cite{zhang2014chinese}
+              - Haiku generation using seed word(s), associations, heuristics for selecting optimal one \cite{netzer2009gaiku}.
+
+- clanki s katerimi primerjamo, vzamemo za osnovo
+       - generiranje vsakdanjih pogovorov. Tri nevronske mreze se uporabijo za; LSTM za encodanje ene replike v semanticno predstavitev -> simple feedforward mreza za mapiranje semantike replike v semantiko odgovora -> LSTM decoder za tvorjenje stavka iz dobljene nove semantike. \cite{luo2018autoencoder}
+       - generiranje besedila rapperskih pesmi z LSTM \cite{potash2015ghostwriter}.
+       - primerjamo lahko svojo metodo z \cite{netzer2009gaiku}, ki tudi se ukvarja z generiranjem haikujev
+
+- ideja - generiranje haikov, nova metoda
+motivacija
+       - LSTM ima zmoznost posnemati ritem, znacilnosti poezije, kot so uporaba za zvrst znacilnih fraz, posnemanje sloga pisanja \cite{potash2015ghostwriter}
+       - nov nacin navezave med verzi - pogovor (vrstici haikuja, encoder-decoder se pogovarjata)
+metodologija, postopek
+       - generiranje prve vrstice z lstm
+       - generiranje naslednjih vrstic v obliki pogovora (uporaba encoder/decoder pristopa) % implementacija https://github.com/lancopku/AMM
 
 \section{Drugi naslovi}
 
