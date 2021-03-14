@@ -39,31 +39,44 @@ Lorem ipsum
 
 \section{Introduction}
 
-- neural networks so zakon
-       - RNN, LSTM - generiranje zgodbe \cite{pawade2018story}
-       - RNN, LSTM - abstracitve text summarization \cite{song2019abstractive}
-       - CNN za image classification, RNN (LSTM) za caption generation - image captioning \cite{You_2016_CVPR}
-       - sklepanje, generiranje hipotez na podlagi naravnega besedila  \cite{bhagavatula2020abductive}
-tezave s katerimi se metode srecujejo (objektivno, avtomatizirano ovrednotenje - semanticna smiselnost besedila)
-       - ponekod lahko uporabimo metrike (kjer imamo target/label text) - image captioning
-              - BLEU \cite{papineni2002bleu}
-              - METEOR \cite{banerjee2005meteor}
-       - ponekod nimamo "pravega"/target/label teksta, in tako niso mozna avtomatska ovretnotenja (ovrednotijo anketiranci, human evaluation)
-              - generiranje kitajskih pesmi \cite{zhang2014chinese}
-              - Haiku generation using seed word(s), associations, heuristics for selecting optimal one \cite{netzer2009gaiku}.
+Deep learning is an emerging machine learning approach that can already be seen applied in many industries. Example use cases include identifying people and objects in images and videos, understanding voice commands (smartphones, cars, smart houses) and providing better results for internet search queries. This technology brought machines the closest they have ever been to how we humans think and talk. Having learned the rules and grammar of our natural language, machines are now able to generate text for various applications that is in some cases indistinguishable from human written text. \cite{pawade2018story}
 
-- clanki s katerimi primerjamo, vzamemo za osnovo
-       - generiranje vsakdanjih pogovorov. Tri nevronske mreze se uporabijo za; LSTM za encodanje ene replike v semanticno predstavitev -> simple feedforward mreza za mapiranje semantike replike v semantiko odgovora -> LSTM decoder za tvorjenje stavka iz dobljene nove semantike. \cite{luo2018autoencoder}
-       - generiranje besedila rapperskih pesmi z LSTM \cite{potash2015ghostwriter}.
-       - primerjamo lahko svojo metodo z \cite{netzer2009gaiku}, ki tudi se ukvarja z generiranjem haikujev
+\section{Related work}
 
-- ideja - generiranje haikov, nova metoda
-motivacija
-       - LSTM ima zmoznost posnemati ritem, znacilnosti poezije, kot so uporaba za zvrst znacilnih fraz, posnemanje sloga pisanja \cite{potash2015ghostwriter}
-       - nov nacin navezave med verzi - pogovor (vrstici haikuja, encoder-decoder se pogovarjata)
-metodologija, postopek
-       - generiranje prve vrstice z lstm
-       - generiranje naslednjih vrstic v obliki pogovora (uporaba encoder/decoder pristopa) % implementacija https://github.com/lancopku/AMM
+Many methods have been developed for text generation. Song, Huang and Ruan \cite{song2019abstractive} achieved Abstractive Text Summarization (ATS) using and LSTM-CNN based ATS framework (ATSDL). You et al. \cite{You_2016_CVPR} researched ways to generate natural language descriptions of images. They proposed a model of semantic attention which combines the established top-down and buttom-up approaches. CNN is used for image classification, followed by RNN and LSTM for the caption generation. Bhagavatula et al. \cite{bhagavatula2020abductive} investigated the viability of natural language-based abductive reasoning.
+
+We face several obstacles trying to evaluate our text generation methods automatically and objectively regarding the semantics. This problem is further divided into cases when we know the target optimal result we strive for \cite{papineni2002bleu}\cite{banerjee2005meteor} and when even that is unknown (e.g., creating a poem). \cite{zhang2014chinese}\cite{netzer2009gaiku}
+
+Our work is based off the following papers the most. Luo et al. \cite{luo2018autoencoder} propose a novel Auto-Encoder Matching model to learn utterance-level dependency for generating everyday dialogue. Three neural networks are used: LSTM for encoding a reply into it's semantical representation, then a feedforward network for mapping the reply semantic into the answer semantic. Lastly a LSTM decoder is used for the sentence generation. Potash, Romanov and Rumshisky \cite{potash2015ghostwriter} demonstrated the generation of rap songs using LSTM. Netzer et al. \cite{netzer2009gaiku} explored the usage of Word Association Norms (WAN) to generate Haiku poetry.
+
+In our approach of generating Haiku poetry we used LSTM as this enabled us to replicate the rhytm and other specifics of Haikus (e.g., frequent phrases and writing style). \cite{potash2015ghostwriter} We tried a new approach regarding the relation between verses by trating them as replies in a dialog. Our method therefore consists of first generating the starting verse using LSTM, then using the encoder/decoder approach for generating the next two verses, treating it like a dialog generation.
+
+
+%- neural networks so zakon
+%       - RNN, LSTM - generiranje zgodbe \cite{pawade2018story}
+%       - RNN, LSTM - abstracitve text summarization \cite{song2019abstractive}
+%       - CNN za image classification, RNN (LSTM) za caption generation - image captioning \cite{You_2016_CVPR}
+%       - sklepanje, generiranje hipotez na podlagi naravnega besedila  \cite{bhagavatula2020abductive}
+%tezave s katerimi se metode srecujejo (objektivno, avtomatizirano ovrednotenje - semanticna smiselnost besedila)
+%       - ponekod lahko uporabimo metrike (kjer imamo target/label text) - image captioning
+%              - BLEU \cite{papineni2002bleu}
+%              - METEOR \cite{banerjee2005meteor}
+%       - ponekod nimamo "pravega"/target/label teksta, in tako niso mozna avtomatska ovretnotenja (ovrednotijo anketiranci, human evaluation)
+%              - generiranje kitajskih pesmi \cite{zhang2014chinese}
+%              - Haiku generation using seed word(s), associations, heuristics for selecting optimal one \cite{netzer2009gaiku}.
+%
+%- clanki s katerimi primerjamo, vzamemo za osnovo
+%       - generiranje vsakdanjih pogovorov. Tri nevronske mreze se uporabijo za; LSTM za encodanje ene replike v semanticno predstavitev -> simple feedforward mreza za mapiranje semantike replike v semantiko odgovora -> LSTM decoder za tvorjenje stavka iz dobljene nove semantike. \cite{luo2018autoencoder}
+%       - generiranje besedila rapperskih pesmi z LSTM \cite{potash2015ghostwriter}.
+%       - primerjamo lahko svojo metodo z \cite{netzer2009gaiku}, ki tudi se ukvarja z generiranjem haikujev
+%
+%- ideja - generiranje haikov, nova metoda
+%motivacija
+%       - LSTM ima zmoznost posnemati ritem, znacilnosti poezije, kot so uporaba za zvrst znacilnih fraz, posnemanje sloga pisanja \cite{potash2015ghostwriter}
+%       - nov nacin navezave med verzi - pogovor (vrstici haikuja, encoder-decoder se pogovarjata)
+%metodologija, postopek
+%       - generiranje prve vrstice z lstm
+%       - generiranje naslednjih vrstic v obliki pogovora (uporaba encoder/decoder pristopa) % implementacija https://github.com/lancopku/AMM
 
 \section{Drugi naslovi}
 
