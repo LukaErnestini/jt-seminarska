@@ -99,17 +99,16 @@ The whole framework is presented in the Figure \ref{fig:fw}.
     \label{fig:fw}
 \end{figure}
 
+\section{Results}
+
 \section{Conclusions}
 
-Lorem ipsum
+We present a novel method for poem generation, applied to the field of Haiku poems. The method utilizes auto-encoder models based on GRU for learning poem characteristics on verse-basis and a mapping module for propagation of information between the verses. A sample of generated poems were together with a sample of human-written poems presented to a number of respondents, that evaluated both generated and human-written poems. While an average generated poem was evaluated 27\% worse than an average human-written poem, there were 3 outstanding poems generated that were evaluated as good as one of the best human-written poems in the sample presented.
 
-\section{Acknowledgments}
-
-The authors acknowledge lorem ipsum.
+The results could be improved by ommiting the training cost optimization explained in section Methodology. Two factors that make this approach inexact, are the following: simply comparing the mapped multi-dimensional hidden state to so-called "estimated expected hidden state" with metric MAE is far from optimal, since the importance/sensitivity of each element in a hidden state vector is not the same. Secondly, the "estimated expected hidden state" is as the phrasing suggests, just an estimation. There can be a number of hidden states that would decode into a target verse, and finding such sub-space of hidden states (if it even exists - if not, we should seek for closest matching verse), is computationally even more difficult than decoding the state in each step of training.
 
 \bibliographystyle{abbrv}
 \bibliography{sigproc}
-
 
 \balancecolumns
 
