@@ -1,4 +1,3 @@
-
 \documentclass{acm_proc_article-sp}
 
 \begin{document}
@@ -41,44 +40,64 @@ Lorem ipsum
 
 Deep learning is an emerging machine learning approach that can already be seen applied in many industries, including natural language processing. Example use cases include identifying people and objects in images and videos, understanding voice commands (smartphones, cars, smart houses) and providing better results for internet search queries. This technology brought machines the closest they have ever been to how we humans think and talk. Having learned the rules and grammar of our natural language, machines are now able to generate text for various applications that is in some cases indistinguishable from human written text \cite{pawade2018story}.
 
-
 In the field of natural language processing, many methods deep learning have been developed for text generation. Song, Huang and Ruan \cite{song2019abstractive} achieved Abstractive Text Summarization (ATS) using and LSTM-CNN based ATS framework (ATSDL). You et al. \cite{You_2016_CVPR} researched ways to generate natural language descriptions of images. They proposed a model of semantic attention which combines the established top-down and buttom-up approaches. CNN is used for image classification, followed by LSTM-based RNN for the caption generation. Bhagavatula et al. \cite{bhagavatula2020abductive} investigated the viability of natural language-based abductive reasoning.
 
 One of the obstacles on the field of text generation has been the objective evaluation of the generated text's semantics. While the spelling and grammar correctness are easy to evaluate, the meaning of the generated text can be challenging to evaluate with an automated metric \cite{celikyilmaz2020evaluation}. Some tasks of text generation, such as image captioning or machine translation, where the (suggested) correct generation is known, can use metrics like BLEU \cite{papineni2002bleu} or METEOR \cite{banerjee2005meteor}, to evaluate the quality of the generated text. On the other hand, tasks where the correct generation is not specified (e.g., story \cite{pawade2018story} or poem \cite{zhang2014chinese} generation), the quality of the produced text is usually evaluated by human readers.
 
 We draw inspiration for our research from the work of Luo et al. \cite{luo2018autoencoder}, who propose a novel Auto-Encoder matching model to learn utterance-level semantic dependency for generating everyday dialogue. Three neural networks are used: LSTM for encoding a reply into it's semantical representation, then a feedforward network for mapping the reply semantic into the answer semantic. Lastly a LSTM decoder is used for the sentence generation. Additionally, we found motivation for our work in the success on the field of poem generation by Potash, Romanov and Rumshisky \cite{potash2015ghostwriter}, who demonstrated the generation of rap songs using LSTM, and Netzer et al. \cite{netzer2009gaiku}, who explored the usage of Word Association Norms (WAN) to generate Haiku poetry.
 
-In the paper, we present a novel method for Haiku poetry generation, combining the approaches of generating the first verse using LSTM network, with the Auto-Encoder matching model \cite{luo2018autoencoder} for generating the second and third verse of the Haiku poem as a form of conversation between the verses. LSTM has proven to be capable of mimicking rhythm, common phrases and even poet's writing style \cite{potash2015ghostwriter}, which we attempt to use for generating the text in a genuine Haiku style, which we describe in the continuation of the work. By using the Auto-Encoder matching model to generate the second and third verse as an answer to the previous verse, we experiment by adding a sense of conversational bond between the verses.
+In the paper, we present a novel method for Haiku poetry generation, combining the approaches of generating the first verse using GRU network, with the Auto-Encoder matching model \cite{luo2018autoencoder} for generating the second and third verse of the Haiku poem as a form of conversation between the verses. RNN, such as GRU or LSTM has proven to be capable of mimicking rhythm, common phrases and even poet's writing style \cite{potash2015ghostwriter}, which we attempt to use for generating the text in a genuine Haiku style, which we describe in the continuation of the work. By using the Auto-Encoder matching model to generate the second and third verse as an answer to the previous verse, we experiment by adding a sense of conversational bond between the verses.
 
-%- neural networks so zakon
-%       - RNN, LSTM - generiranje zgodbe \cite{pawade2018story}
-%       - RNN, LSTM - abstracitve text summarization \cite{song2019abstractive}
-%       - CNN za image classification, RNN (LSTM) za caption generation - image captioning \cite{You_2016_CVPR}
-%       - sklepanje, generiranje hipotez na podlagi naravnega besedila  \cite{bhagavatula2020abductive}
-%tezave s katerimi se metode srecujejo (objektivno, avtomatizirano ovrednotenje - semanticna smiselnost besedila)
-%       - ponekod lahko uporabimo metrike (kjer imamo target/label text) - image captioning
-%              - BLEU \cite{papineni2002bleu}
-%              - METEOR \cite{banerjee2005meteor}
-%       - ponekod nimamo "pravega"/target/label teksta, in tako niso mozna avtomatska ovretnotenja (ovrednotijo anketiranci, human evaluation)
-%              - generiranje kitajskih pesmi \cite{zhang2014chinese}
-%              - Haiku generation using seed word(s), associations, heuristics for selecting optimal one \cite{netzer2009gaiku}.
-%
-%- clanki s katerimi primerjamo, vzamemo za osnovo
-%       - generiranje vsakdanjih pogovorov. Tri nevronske mreze se uporabijo za; LSTM za encodanje ene replike v semanticno predstavitev -> simple feedforward mreza za mapiranje semantike replike v semantiko odgovora -> LSTM decoder za tvorjenje stavka iz dobljene nove semantike. \cite{luo2018autoencoder}
-%       - generiranje besedila rapperskih pesmi z LSTM \cite{potash2015ghostwriter}.
-%       - primerjamo lahko svojo metodo z \cite{netzer2009gaiku}, ki tudi se ukvarja z generiranjem haikujev
-%
-%- ideja - generiranje haikov, nova metoda
-%motivacija
-%       - LSTM ima zmoznost posnemati ritem, znacilnosti poezije, kot so uporaba za zvrst znacilnih fraz, posnemanje sloga pisanja \cite{potash2015ghostwriter}
-%       - nov nacin navezave med verzi - pogovor (vrstici haikuja, encoder-decoder se pogovarjata)
-%metodologija, postopek
-%       - generiranje prve vrstice z lstm
-%       - generiranje naslednjih vrstic v obliki pogovora (uporaba encoder/decoder pristopa) % implementacija https://github.com/lancopku/AMM
+\section{Background}
 
-\section{Drugi naslovi}
+Haiku is a form fo poetry of poetry originated in Japan and later adopted in Western languages. Traditional Haiku consists of three lines with five, seven and five syllables, however this form has been loosened in non-Japanese versions of Haiku. We adopt this loosened form of Haiku, with only syntactic constraint being 3 short verses.
 
-Lorem ipsum
+For the training corpus, we selected approximately 17 thousand poems from a larger Haiku dataset, containing over 118 thousand English Haikus. Selected Haikus comply with our loosened syntactic constraint, wereas other poems in the dataset were of more experimental nature (empty or very long verses, unconventional use of punctuation, grammatically flawed).
+
+\section{Methodology}
+
+The proposed methodology of generating Haiku poetry consists of the following steps: generating the first verse of the poem using a GRU-based model, and generating the second and third verse using the modified Auto-Encoder matching model. The poem generating framework thus consists of 5 neural networks of 2 types. First type is the auto-encoder GRU-based network with 2 GRU cells. First GRU cell processes the verse and encodes it in a hidden state, which is then decoded by a second GRU cell that generates the output from the given state. 3 such networks are used in the framework, one for each verse. The second type of the neural network is a mapping network, that transfers the information from one verse to another. The mapping network consists of 2 fully-connected layers. The architecture of the auto-encoder model type is presented in Figure \ref{fig:autoenc}, and the architecture of the mapping module in Figure \ref{fig:mapping}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth]{flowchart/autoenc.pdf}
+    \caption[The architecture of the auto-encoder model type.]{The architecture of the auto-encoder model type.}
+    \label{fig:autoenc}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth]{flowchart/mapping.pdf}
+    \caption[The architecture of the mapping module.]{The architecture of the mapping module.}
+    \label{fig:mapping}
+\end{figure}
+
+The procedure of generating the Haiku with trained models is more precisely presented in the Figure \ref{fig:generation}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth]{flowchart/generation.pdf}
+    \caption[The procedure of generating the Haiku with trained models.]{The procedure of generating the Haiku with trained models.}
+    \label{fig:generation}
+\end{figure}
+
+While training the GRU models is fairly straightforward (the auto-encoder model is supposed to generate the same output as the input it was given), the training of a mapping module is somewhat more complicated. Authors \cite{luo2018autoencoder} of auto-encoder matching model for dialogue generation, train the mapping module by passing the encoded hidden state of an auto-encoder into a mapping module, and then decoding the mapped hidden state with auto-encoder and comparing it to the expected output (reply in a conversation). While we could in theory do the same (encode verse 1 with auto-encoder for 1st verse, map the hidden with mapping module 1 and then decode the mapped hidden state with auto-encoder for the 2nd verse, similar for the following 3rd verse), this is a very computationally difficult task. While we could pre-process the encodings of each verse, we would still have to do all the decoding operations with each training step, leading to very long training times. To mitigate this, we propose a simpler approach presented in Figure \ref{fig:training}. Instead of decoding the mapped hidden state, the mapped hidden state itself is compared to an estimation of the expected hidden state. This approach offers significantly faster training times, however the exactness of the approach is not optimal, which we further discuss in the following sections.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth]{flowchart/training.pdf}
+    \caption[The procedure of training the mapping module.]{The procedure of training the mapping module.}
+    \label{fig:training}
+\end{figure}
+
+The whole framework is presented in the Figure \ref{fig:fw}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth]{flowchart/fw.pdf}
+    \caption[The Haiku poem generation framework.]{The Haiku poem generation framework.}
+    \label{fig:fw}
+\end{figure}
 
 \section{Conclusions}
 
