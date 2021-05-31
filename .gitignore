@@ -5,3 +5,4 @@ prispevek/*.fdb_latexmk
 prispevek/*.fls
 prispevek/*.log
 prispevek/*.synctex.gz
+.vscode/settings.json

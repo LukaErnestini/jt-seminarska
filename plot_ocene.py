@@ -60,6 +60,8 @@ x_mean_h = np.mean(xs_h, axis=0)
 y_mean_ai = np.mean(ys_ai, axis=0)
 y_mean_h = np.mean(ys_h, axis=0)
 
+
+
 fig, ax = plt.subplots()
 ax.scatter(x_mean_ai, y_mean_ai, c='r', label='AI-generated')
 ax.scatter(x_mean_h, y_mean_h, c='g', label='human author')
@@ -72,4 +74,4 @@ for i in range(len(human_indice)):
 plt.xlabel('How much do you like the poem [1-5]')
 plt.ylabel('How strong do you believe that the author is human [1-5]')
 plt.legend()
-plt.savefig('average_score_poems.pdf')
+plt.savefig('average_score_poems_2.pdf')
